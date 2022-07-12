@@ -16,6 +16,7 @@ weapon1 = common_sword
 weapon2 = common_bow
 armor = common_armor
 helm = common_armor_helm
+player_health = 200
 
 def run_preperation():
     global current_enemy

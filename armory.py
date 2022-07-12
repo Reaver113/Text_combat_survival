@@ -58,19 +58,3 @@ legendary_bow= weapon("legendary bow", "Pierce", 24, 130)
 relic_bow = weapon("relic bow", "pierce", 28, 150)
 aicent_bow = weapon("ancient Bow", "Pierce", 32, 170)
 
-class player1:
-    def __init__(self, player_health, player_weapon1, player_weapon2, armor_head, armor_body):
-        self.player_health = player_health
-        self.player_weapon1 = player_weapon1
-        self.player_weapon2 = player_weapon2
-        self.armor_head = armor_head
-        self.armor_body = armor_body
-
-weapon1 = common_sword
-weapon2 = common_bow
-armor = common_armor
-helm = common_armor_helm
-
-player_health = 200
-
-player = player1(player_health, weapon1, weapon2, helm, armor)
