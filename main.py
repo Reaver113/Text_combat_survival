@@ -89,17 +89,20 @@ def run_preperation():
 def round1():
     global round_count
     global has_played
-    action = "not ready"
+    action = ""
+
     if current_enemy == dragon_boss:
         print("THE MIGHTY DRAGON ROARS!!!!! This be a tough fight")
-    if has_played == False:
+    elif has_played == False:
         print(f"\nYou stand before {current_enemy.name} and prepare yourself.\n")
         has_played = True
     elif has_played == True:
         print(f"The {current_enemy.name} matches you gaze once more")
-    while action != "quick attack" or "quick" or "heavy attack" or "heavy" or "brace" or "potions":
+
+
+    while action != "quick attack"  or "heavy attack" or "brace" or "potions":
         action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Potions"      """).lower()
-        if action == "quick attack" or "quick":
+        if action == "quick attack":
             quick_attack()
             if current_enemy_health_g < 1:
                 print(f"You have slain the {current_enemy.name}")
@@ -113,7 +116,7 @@ def round1():
             else:
                 round1()
 
-        elif action == "heavy attack" or "heavy":
+        elif action == "heavy attack":
             heavy_attack()
             if current_enemy_health_g < 1:
                 print(f"You have slain the {current_enemy.name}")
@@ -139,9 +142,9 @@ def round1():
 def quick_attack():
     global current_enemy_health_g
     chosen_weapon = "not chosen"
-    while chosen_weapon != weapon1.weapon_name or "sword" or weapon2.weapon_name or "bow":
+    while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
-        if chosen_weapon == weapon1.weapon_name or "sword":
+        if chosen_weapon == weapon1.weapon_name :
             print(f"You attack with your {weapon1.weapon_name}\n")
             hit_chance = random.randint(1,100)
             if hit_chance > 25 and weapon1.weapon_dmg_type == current_enemy.weakness1:
@@ -157,7 +160,7 @@ def quick_attack():
             else:
                 print("Your attack misses\n")
                 return
-        if chosen_weapon == weapon2.weapon_name or "bow":
+        if chosen_weapon == weapon2.weapon_name:
             print(f"You attack with your {weapon2.weapon_name}\n")
             hit_chance = random.randint(1,100)
             if hit_chance > 25 and weapon2.weapon_dmg_type == current_enemy.weakness1:
@@ -181,9 +184,9 @@ def quick_attack():
 def heavy_attack():
     global current_enemy_health_g
     chosen_weapon = "not chosen"
-    while chosen_weapon != weapon1.weapon_name or "sowrd" or weapon2.weapon_name or "bow":
+    while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
-        if chosen_weapon == weapon1.weapon_name or "sword":
+        if chosen_weapon == weapon1.weapon_name:
             print(f"You attack with your {weapon1.weapon_name}\n")
             hit_chance = random.randint(1,100)
             if hit_chance > 45 and weapon1.weapon_dmg_type == current_enemy.weakness1:
@@ -198,7 +201,7 @@ def heavy_attack():
             else:
                 print("Your attack misses\n")
                 return
-        if chosen_weapon == weapon2.weapon_name or "bow":
+        if chosen_weapon == weapon2.weapon_name:
             print(f"You attack with your {weapon2.weapon_name}\n")
             hit_chance = random.randint(1,100)
             if hit_chance > 45 and weapon2.weapon_dmg_type == current_enemy.weakness1:
@@ -276,5 +279,9 @@ def round_reset():
         run_preperation()
 
 
+def game_start():
+    run_preperation()
+    round1()
 
-upgrade()
+
+game_start()
