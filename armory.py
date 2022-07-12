@@ -56,7 +56,7 @@ rare_bow = weapon("rare bow", "Pierce", 16, 90)
 epic_bow = weapon("epic bow", "Pierce", 20, 110)
 legendary_bow= weapon("legendary bow", "Pierce", 24, 130)
 relic_bow = weapon("relic bow", "pierce", 28, 150)
-aicent_bow = weapon("Ancient Bow", "Pierce", 32, 170)
+aicent_bow = weapon("ancient Bow", "Pierce", 32, 170)
 
 class player1:
     def __init__(self, player_health, player_weapon1, player_weapon2, armor_head, armor_body):
@@ -68,96 +68,9 @@ class player1:
 
 weapon1 = common_sword
 weapon2 = common_bow
-helm = common_armor_helm
 armor = common_armor
+helm = common_armor_helm
+
 player_health = 200
 
 player = player1(player_health, weapon1, weapon2, helm, armor)
-
-
-    
-
-def upgrade():
-    global weapon1
-    global weapon2
-    global helm
-    global armor
-
-    print("\nYou find loot on the body!")
-    upgrade_catagory = random.randint(1,4)
-    if upgrade_catagory == 1:
-        if weapon1 == common_sword:
-            weapon1 = uncommon_sword
-            print("""Your "Common Sword" becomes a "Uncommon Sword"\n """)
-        elif weapon1 == uncommon_sword:
-            weapon1 = rare_sword
-            print("""Your "Uncommon Sword" becomes a "Rare Sword"\n """)
-        elif weapon1 == rare_sword:
-            weapon1 = epic_sword
-            print("""Your "Rare Sword" becomes a "Epic Sword"\n """)
-        elif weapon1 == epic_sword:
-            weapon1 = legendary_sword
-            print("""Your "Epic Sword" becomes a "Legendary Sword"\n """)
-        elif weapon1 == legendary_sword:
-            weapon1 = relic_sword
-            print("""Your "Legendary Sword" becomes a "Relic Sword"\n """)
-        elif weapon1 == relic_sword:
-            weapon1 = aicent_sword
-            print("""Your "Relic Sword" becomes a "Ancient Sword"\n """)
-    elif upgrade_catagory == 2:
-        if weapon2 == common_bow:
-            weapon2 = uncommon_sword
-            print("""Your "Common Bow" becomes a "Uncommon Bow"\n """)
-        elif weapon2 == uncommon_bow:
-            weapon2 = rare_sword
-            print("""Your "Uncommon Bow" becomes a "Rare Bow"\n """)
-        elif weapon2 == rare_bow:
-            weapon2 = epic_sword
-            print("""Your "Rare Bow" becomes a "Epic Bow"\n """)
-        elif weapon2 == epic_bow:
-            weapon2 = legendary_bow
-            print("""Your "Epic Bow" becomes a "Legendary Bow"\n """)
-        elif weapon2 == legendary_bow:
-            weapon2 = relic_bow
-            print("""Your "Legendary Bow" becomes a "Relic Bow"\n """)
-        elif weapon2 == relic_bow:
-            weapon2 = aicent_bow
-            print("""Your "Relic Bow" becomes a "Ancient Bow"\n """)
-    elif upgrade_catagory == 3:
-        if helm == common_armor_helm:
-            helm = uncommon_armor_helm
-            print("""Your "Common Helm" becomes a "Uncommon Helm"\n """)
-        elif helm == uncommon_armor_helm:
-            helm = rare_armor_helm
-            print("""Your "Uncommon Helm" becomes a "Rare Helm"\n """)
-        elif helm == rare_armor_helm:
-            helm = epic_armor_helm
-            print("""Your "Rare Helm" becomes a "Epic Helm"\n """)
-        elif helm == epic_armor_helm:
-            helm = legendary_armor_helm
-            print("""Your "Epic Helm" becomes a "Legendary Helm"\n """)
-        elif helm == legendary_armor_helm:
-            helm = relic_armor_helm
-            print("""Your "Legendary Helm" becomes a "Relic Helm"\n """)
-        elif helm == relic_armor_helm:
-            helm = aicent_armor_helm
-            print("""Your "Relic Helm" becomes a "Ancient Helm"\n """)
-    elif upgrade_catagory == 4:
-        if armor == common_armor:
-            armor = uncommon_armor
-            print("""Your "Common Armor" becomes a "Uncommon Armor"\n """)
-        elif armor == uncommon_armor:
-            armor = rare_armor
-            print("""Your "Uncommon Armor" becomes a "Rare Armor"\n """)
-        elif armor == rare_armor:
-            armor = epic_armor
-            print("""Your "Rare Armor" becomes a "Epic Armor"\n """)
-        elif armor == epic_armor:
-            armor = legendary_armor
-            print("""Your "Epic Armor" becomes a "Legendary Armor"\n """)
-        elif armor == legendary_armor:
-            armor = relic_armor
-            print("""Your "Legendary Armor" becomes a "Relic Armor"\n """)
-        elif armor == relic_armor:
-            armor = aicent_armor
-            print("""Your "Relic Armor" becomes a "Ancient Armor"\n """)
