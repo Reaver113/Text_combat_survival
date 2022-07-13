@@ -1,4 +1,5 @@
 import random
+import shelve
 from armory import *
 from monsters import *
 
@@ -17,6 +18,7 @@ weapon2 = common_bow
 armor = common_armor
 helm = common_armor_helm
 player_health = 200
+plyaer_name = ""
 
 def run_preperation():
     global current_enemy
@@ -25,6 +27,7 @@ def run_preperation():
     global enemy_3
     global enemy_4
     global current_enemy_health_g
+    global player_name
 
     enemy_roll1 = random.randint(1,3)
     if enemy_roll1 == 1:
@@ -60,6 +63,9 @@ def run_preperation():
 
 
     user_ready = "not ready"
+
+    player_name = input("Please enter your name: ")
+    print(f"\nwelcome {player_name}")
     
     print("This rounds gauntlet will be!\n")
     print(enemy1.name)
