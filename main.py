@@ -1,3 +1,4 @@
+from os import O_RSYNC
 import random
 import shelve
 from armory import *
@@ -29,91 +30,52 @@ def run_preperation():
     global current_enemy_health_g
     global player_name
 
-    enemy_roll1 = random.randint(1,5)
+    def enemy_roll():
+        enemy_chance = random.randint(1,5)
+        if enemy_chance == 1:
+            enemy_chance = goblin
+        elif enemy_chance == 2:
+            enemy_chance = rock_monster
+        elif enemy_chance == 3:
+            enemy_chance = cyclops
+        elif enemy_chance == 4:
+            enemy_chance = treeant
+        elif enemy_chance == 5:
+            enemy_chance = orc
+        return enemy_chance
 
-    if enemy_roll1 == 1:
-        enemy1 = goblin
-    elif enemy_roll1 == 2:
-        enemy1 = rock_monster
-    elif enemy_roll1 == 3:
-        enemy1 = cyclops
-    elif enemy_roll1 == 4:
-        enemy1 = treeant
-    elif enemy_roll1 == 5:
-        enemy1 = orc
-
-
-    enemy_roll2 = random.randint(1,5)
-    while enemy_roll2 == enemy_roll1:
-        enemy_roll2 = random.randint(1,5)
-
-    if enemy_roll2 == 1:
-        enemy2 = goblin
-    elif enemy_roll2 == 2:
-        enemy2 = rock_monster
-    elif enemy_roll2 == 3:
-        enemy2 = cyclops
-    elif enemy_roll2 == 4:
-        enemy2 = treeant
-    elif enemy_roll2 == 5:
-        enemy2 = orc
-
-    enemy_roll3 = random.randint(1,5)
-    while enemy_roll3 == enemy_roll1 or enemy_roll3 == enemy_roll2:
-        enemy_roll3 = random.randint(1,5)
-
-
-    if enemy_roll3 == 1:
-        enemy3 = goblin
-    elif enemy_roll3 == 2:
-        enemy3 = rock_monster
-    elif enemy_roll3 == 3:
-        enemy3 = cyclops
-    elif enemy_roll3 == 4:
-        enemy3 = treeant
-    elif enemy_roll3 == 5:
-        enemy3 = orc
-
-    enemy_roll4 = random.randint(1,5)
-    while enemy_roll4 == enemy_roll1 or enemy_roll4 ==  enemy_roll2 or enemy_roll4 ==  enemy_roll3:
-        enemy_roll4 = random.randint(1,5)
-
-    if enemy_roll4 == 1:
-        enemy4 = goblin
-    elif enemy_roll4 == 2:
-        enemy4 = rock_monster
-    elif enemy_roll4 == 3:
-        enemy4 = cyclops
-    elif enemy_roll4 == 4:
-        enemy4 = treeant
-    elif enemy_roll4 == 5:
-        enemy4 = orc
+    enemy_1 = enemy_roll()
+    enemy_2 = enemy_roll()
+    while enemy_2 == enemy_1:
+        enemy_2 = enemy_roll()
+    enemy_3 = enemy_roll()
+    while enemy_3 == enemy_1 or enemy_3 == enemy_2:
+        enemy_3 = enemy_roll()
+    enemy_4 = enemy_roll()
+    while enemy_4 == enemy_1 or enemy_4 == enemy_2 or enemy_4 == enemy_3:
+        enemy_4 = enemy_roll()
 
     user_ready = "not ready"
 
     
     print("This rounds gauntlet will be!\n")
-    print(enemy1.name)
-    print(f"This enemy has {enemy1.health} Health, and is weak to {enemy1.weakness1} damage\n ")
+    print(enemy_1.name)
+    print(f"This enemy has {enemy_1.health} Health, and is weak to {enemy_1.weakness1} damage\n ")
     print("followed by:\n")
-    print(enemy2.name)
-    print(f"This enemy has {enemy2.health} Health, and is weak to {enemy2.weakness1} damage\n")
+    print(enemy_2.name)
+    print(f"This enemy has {enemy_2.health} Health, and is weak to {enemy_2.weakness1} damage\n")
     print("followed by:\n")
-    print(enemy3.name)
-    print(f"This enemy has {enemy3.health} Health, and is weak to {enemy3.weakness1} damage\n")
+    print(enemy_3.name)
+    print(f"This enemy has {enemy_3.health} Health, and is weak to {enemy_3.weakness1} damage\n")
     print("followed by:\n")
-    print(enemy4.name )
-    print(f"This enemy has {enemy4.health} Health, and is weak to {enemy4.weakness1} damage\n")
+    print(enemy_4.name )
+    print(f"This enemy has {enemy_4.health} Health, and is weak to {enemy_4.weakness1} damage\n")
     print("Goodluck.... you're gonna need it....")
 
     while user_ready != "ready":
         user_ready = input("""Type "ready" to begin the challenge or "exit" to run: """)
         if user_ready == "ready":
-            current_enemy_health_g = enemy1.health
-            enemy_1 = enemy1
-            enemy_2 = enemy2
-            enemy_3 = enemy3
-            enemy_4 = enemy4
+            current_enemy_health_g = enemy_1.health
             current_enemy = enemy_1
             round1()
             return
@@ -127,6 +89,7 @@ def round1():
     global round_count
     global has_played
     global player_name
+    global player_health
     action = ""
     if current_enemy == dragon_boss:
         print("THE MIGHTY DRAGON ROARS!!!!!")
@@ -208,7 +171,7 @@ def round1():
             score["Dragon Count"] = dragon_count
             print("\nName:")
             print(score["Name"])
-            print("Rounds Passed:")
+            print("Enimies Slain:")
             print(score["Round Count"])
             print("Dragons Slain:")
             print(score["Dragon Count"])
@@ -217,11 +180,12 @@ def round1():
             print("\nYour score has been saved, Thank you for playing!")
             exit()
 
+
 def scoreboard():
     score = shelve.open("last_score")
     print("\nName:")
     print(score["Name"])
-    print("Rounds Passed:")
+    print("Enimies Slain::")
     print(score["Round Count"])
     print("Dragons Slain:")
     print(score["Dragon Count"])
@@ -271,9 +235,6 @@ def quick_attack():
             else:
                 print("Your attack misses\n")
                 return
-
-
-
 
 
 def heavy_attack():
@@ -342,7 +303,7 @@ def monster_attack():
 
 
 def stats():
-    print(f"Your name is {player_name} and you have {player_health} remaining")
+    print(f"\nYour name is {player_name} and you have {player_health} HP remaining")
     print(f"You current weild a {weapon1.weapon_name} ({weapon1.weapon_dmg} Damage) and a {weapon2.weapon_name} ({weapon2.weapon_dmg} Damage)")
     print(f"You have donned the {helm.armor_helm_name} ({helm.dmg_reduction} Defence) and {armor.armor_body_name} ({armor.dmg_reduction} Defence)") 
     print(f"You have sucessfully defeated {round_count} enimies and {dragon_count} Dragons\n")
