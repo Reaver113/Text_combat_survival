@@ -101,7 +101,6 @@ def round1():
     global round_count
     global has_played
     action = ""
-
     if current_enemy == dragon_boss:
         print("THE MIGHTY DRAGON ROARS!!!!! This be a tough fight")
     elif has_played == False:
@@ -111,8 +110,8 @@ def round1():
         print(f"The {current_enemy.name} matches you gaze once more")
 
 
-    while action != "quick attack"  or "heavy attack" or "brace" or "potions":
-        action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Potions"      """).lower()
+    while action != "quick attack"  or "heavy attack":
+        action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Scoreboard"      """).lower()
         if action == "quick attack":
             quick_attack()
             if current_enemy_health_g < 1:
@@ -122,8 +121,16 @@ def round1():
                 round_reset()
             monster_attack()
             if player_health < 1:
-                print("You have been defeated")
-                return
+                print("You have been defeated\n")
+                score = shelve.open("highscore")
+                score["Name"] = player_name
+                score["Round Count"] = round_count
+                score["Dragon Count"] = dragon_count
+                for key in score:
+                    print(score[key])
+                score.close()
+                print("\nYour score has been saved, Thank you for playing!")
+                exit()
             else:
                 round1()
 
@@ -143,11 +150,20 @@ def round1():
                 round1()
         elif action == "stats":
             stats()
-        elif action == "potions":
-            potions()
+        elif action == "scoreboard":
+            scoreboard()
 
 
-
+def scoreboard():
+    score = shelve.open("highscore")
+    print("\nName:")
+    print(score["Name"])
+    print("Rounds Passed:")
+    print(score["Round Count"])
+    print("Dragons Slain:")
+    print(score["Dragon Count"])
+    print("\n")
+    score.close()
 
 
 def quick_attack():
