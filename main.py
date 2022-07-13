@@ -4,7 +4,7 @@ import shelve
 from armory import *
 from monsters import *
 
-current_enemy_health_g = 0
+current_enemy_health = 0
 enemy_1 = ""
 enemy_2 = ""
 enemy_3 = ""
@@ -27,7 +27,7 @@ def run_preperation():
     global enemy_2
     global enemy_3
     global enemy_4
-    global current_enemy_health_g
+    global current_enemy_health
     global player_name
 
     def enemy_roll():
@@ -59,15 +59,16 @@ def run_preperation():
 
     
     print("This rounds gauntlet will be!\n")
+    print("Enemy #1:")
     print(enemy_1.name)
     print(f"This enemy has {enemy_1.health} Health, and is weak to {enemy_1.weakness1} damage\n ")
-    print("followed by:\n")
+    print("Enemy #2:")
     print(enemy_2.name)
     print(f"This enemy has {enemy_2.health} Health, and is weak to {enemy_2.weakness1} damage\n")
-    print("followed by:\n")
+    print("Enemy #3")
     print(enemy_3.name)
     print(f"This enemy has {enemy_3.health} Health, and is weak to {enemy_3.weakness1} damage\n")
-    print("followed by:\n")
+    print("Enemy #4")
     print(enemy_4.name )
     print(f"This enemy has {enemy_4.health} Health, and is weak to {enemy_4.weakness1} damage\n")
     print("Goodluck.... you're gonna need it....")
@@ -75,7 +76,7 @@ def run_preperation():
     while user_ready != "ready":
         user_ready = input("""Type "ready" to begin the challenge or "exit" to run: """)
         if user_ready == "ready":
-            current_enemy_health_g = enemy_1.health
+            current_enemy_health = enemy_1.health
             current_enemy = enemy_1
             round1()
             return
@@ -98,8 +99,6 @@ def round1():
         has_played = True
     elif has_played == True:
         print(f"The {current_enemy.name} matches you gaze once more")
-
-
     while action != "quick attack"  or action != "heavy attack":
         action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Previous score"      """).lower()
         if action == "quick":
@@ -110,10 +109,9 @@ def round1():
             action = "previous score"
         if action == "score":
             action = "previous score"
-
         if action == "quick attack":
             quick_attack()
-            if current_enemy_health_g < 1 and current_enemy == dragon_boss:
+            if current_enemy_health < 1 and current_enemy == dragon_boss:
                 print(f"You have slain the {current_enemy.name}")
                 has_played = False
                 player_health = player_health + 150
@@ -121,7 +119,7 @@ def round1():
                 upgrade()
                 upgrade()
                 round_reset()
-            elif current_enemy_health_g < 1:
+            elif current_enemy_health < 1:
                 print(f"You have slain the {current_enemy.name}")
                 has_played = False
                 upgrade()
@@ -148,7 +146,7 @@ def round1():
 
         elif action == "heavy attack":
             heavy_attack()
-            if current_enemy_health_g < 1:
+            if current_enemy_health < 1:
                 print(f"You have slain the {current_enemy.name}")
                 has_played = False
                 upgrade()
@@ -194,7 +192,7 @@ def scoreboard():
 
 
 def quick_attack():
-    global current_enemy_health_g
+    global current_enemy_health
     chosen_weapon = "not chosen"
     while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
@@ -208,13 +206,13 @@ def quick_attack():
             hit_chance = random.randint(1,100)
             if hit_chance > 25 and weapon1.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon1.weapon_dmg}) + ({weapon1.weapon_dmg / 4} Weakness bonus)")
-                current_enemy_health_g = current_enemy_health_g - ((weapon1.weapon_dmg / 4) + weapon1.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon1.weapon_dmg / 4) + weapon1.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             elif hit_chance > 25:
                 print(f"It Hits! ({weapon1.weapon_dmg})")
-                current_enemy_health_g = current_enemy_health_g - weapon1.weapon_dmg
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - weapon1.weapon_dmg
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             else:
                 print("Your attack misses\n")
@@ -224,13 +222,13 @@ def quick_attack():
             hit_chance = random.randint(1,100)
             if hit_chance > 25 and weapon2.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon2.weapon_dmg}) + ({weapon2.weapon_dmg / 4} Weakness bonus)")
-                current_enemy_health_g = current_enemy_health_g - ((weapon2.weapon_dmg / 4) + weapon2.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon2.weapon_dmg / 4) + weapon2.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             elif hit_chance > 25:
                 print(f"It Hits! ({weapon2.weapon_dmg})")
-                current_enemy_health_g = current_enemy_health_g - weapon2.weapon_dmg
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - weapon2.weapon_dmg
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             else:
                 print("Your attack misses\n")
@@ -238,7 +236,7 @@ def quick_attack():
 
 
 def heavy_attack():
-    global current_enemy_health_g
+    global current_enemy_health
     chosen_weapon = "not chosen"
     while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
@@ -252,13 +250,13 @@ def heavy_attack():
             hit_chance = random.randint(1,100)
             if hit_chance > 45 and weapon1.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon1.weapon_dmg}) + ({weapon1.weapon_dmg / 4} Weakness bonus) + ({weapon1.weapon_dmg / 2} + Heavy bonus)")
-                current_enemy_health_g = current_enemy_health_g - ((weapon1.weapon_dmg / 4) +(weapon1.weapon_dmg / 2)+ weapon1.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon1.weapon_dmg / 4) +(weapon1.weapon_dmg / 2)+ weapon1.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             elif hit_chance > 45:
                 print(f"It Hits! ({weapon1.weapon_dmg}) + ({weapon1.weapon_dmg / 2} Heavy bonus)")
-                current_enemy_health_g = current_enemy_health_g - ((weapon1.weapon_dmg / 2) + weapon1.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon1.weapon_dmg / 2) + weapon1.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             else:
                 print("Your attack misses\n")
@@ -268,13 +266,13 @@ def heavy_attack():
             hit_chance = random.randint(1,100)
             if hit_chance > 45 and weapon2.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon2.weapon_dmg}) + ({weapon2.weapon_dmg / 4} Weakness bonus) + ({weapon2.weapon_dmg / 2} + Heavy bonus)")
-                current_enemy_health_g = current_enemy_health_g - ((weapon2.weapon_dmg / 4) +(weapon2.weapon_dmg / 2)+ weapon2.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon2.weapon_dmg / 4) +(weapon2.weapon_dmg / 2)+ weapon2.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             if hit_chance > 45:
                 print(f"It Hits! ({weapon2.weapon_dmg}) + heavy bonus ({weapon2.weapon_dmg / 2})")
-                current_enemy_health_g = current_enemy_health_g - ((weapon2.weapon_dmg / 2) + weapon2.weapon_dmg)
-                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
+                current_enemy_health = current_enemy_health - ((weapon2.weapon_dmg / 2) + weapon2.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health} HP remaing\n")
                 return
             else:
                 print("Your attack misses\n")
@@ -316,27 +314,27 @@ def round_reset():
     global enemy_2
     global enemy_3
     global enemy_4
-    global current_enemy_health_g
+    global current_enemy_health
 
     if current_enemy == enemy_1:
         current_enemy = enemy_2
         round_count += 1
-        current_enemy_health_g = current_enemy.health
+        current_enemy_health = current_enemy.health
         round1()
     elif current_enemy == enemy_2:
         current_enemy = enemy_3
         round_count += 1
-        current_enemy_health_g = current_enemy.health
+        current_enemy_health = current_enemy.health
         round1()
     elif current_enemy == enemy_3:
         current_enemy = enemy_4
         round_count += 1
-        current_enemy_health_g = current_enemy.health
+        current_enemy_health = current_enemy.health
         round1()
     elif current_enemy == enemy_4:
         current_enemy = dragon_boss
         round_count += 1
-        current_enemy_health_g = current_enemy.health
+        current_enemy_health = current_enemy.health
         round1()
     elif current_enemy == dragon_boss:
         dragon_count += 1
@@ -430,7 +428,7 @@ def upgrade():
 def game_start():
     global player_name
     player_name = input("Please enter your name: ")
-    print(f"\nwelcome {player_name}")
+    print(f"\nWelcome {player_name}")
     run_preperation()
     round1()
 
