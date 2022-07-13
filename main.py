@@ -1,4 +1,3 @@
-from os import O_RSYNC
 import random
 import shelve
 from armory import *
@@ -100,7 +99,7 @@ def round1():
     elif has_played == True:
         print(f"The {current_enemy.name} matches you gaze once more")
     while action != "quick attack"  or action != "heavy attack":
-        action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Previous score"      """).lower()
+        action = input(""""Quick Attack"         "Heavy Attack"         "Stats"         "Previous score"         "Quit"  """).lower()
         if action == "quick":
             action = "quick attack"
         if action == "heavy":
@@ -110,6 +109,7 @@ def round1():
         if action == "score":
             action = "previous score"
         if action == "quick attack":
+
             quick_attack()
             if current_enemy_health < 1 and current_enemy == dragon_boss:
                 print(f"You have slain the {current_enemy.name}")
@@ -143,7 +143,6 @@ def round1():
                 exit()
             else:
                 round1()
-
         elif action == "heavy attack":
             heavy_attack()
             if current_enemy_health < 1:
@@ -292,7 +291,7 @@ def monster_attack():
         print(f"The {current_enemy.name} Hits you back for {monster_dmg} ({monster_dmg_pre} + {monster_dmg_pre / 2}) - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
         print(f"You have {player_health} remaing\n")
     if current_enemy != dragon_boss:
-        monster_dmg_pre = random.randint(10, 20)
+        monster_dmg_pre = random.randint(13, 25)
         monster_dmg = monster_dmg_pre - helm.dmg_reduction - armor.dmg_reduction
         player_health = player_health - monster_dmg
         print(f"The {current_enemy.name} Hits you back for {monster_dmg} ({monster_dmg_pre} - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
