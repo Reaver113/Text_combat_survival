@@ -18,7 +18,7 @@ weapon2 = common_bow
 armor = common_armor
 helm = common_armor_helm
 player_health = 400
-plyaer_name = ""
+player_name = ""
 
 def run_preperation():
     global current_enemy
@@ -91,8 +91,6 @@ def run_preperation():
 
     user_ready = "not ready"
 
-    player_name = input("Please enter your name: ")
-    print(f"\nwelcome {player_name}")
     
     print("This rounds gauntlet will be!\n")
     print(enemy1.name)
@@ -131,7 +129,7 @@ def round1():
     global player_name
     action = ""
     if current_enemy == dragon_boss:
-        print("THE MIGHTY DRAGON ROARS!!!!! This be a tough fight")
+        print("THE MIGHTY DRAGON ROARS!!!!!")
     elif has_played == False:
         print(f"\nYou stand before the {current_enemy.name} and prepare yourself.\n")
         has_played = True
@@ -139,16 +137,28 @@ def round1():
         print(f"The {current_enemy.name} matches you gaze once more")
 
 
-    while action != "quick attack"  or "heavy attack":
-        action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Scoreboard"      """).lower()
+    while action != "quick attack"  or action != "heavy attack":
+        action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Previous score"      """).lower()
         if action == "quick":
             action = "quick attack"
         if action == "heavy":
             action = "heavy attack"
+        if action == "previous":
+            action = "previous score"
+        if action == "score":
+            action = "previous score"
 
         if action == "quick attack":
             quick_attack()
-            if current_enemy_health_g < 1:
+            if current_enemy_health_g < 1 and current_enemy == dragon_boss:
+                print(f"You have slain the {current_enemy.name}")
+                has_played = False
+                player_health = player_health + 150
+                print(f"On the Dragon you find double loot, and a health potion\n current health: {player_health}")
+                upgrade()
+                upgrade()
+                round_reset()
+            elif current_enemy_health_g < 1:
                 print(f"You have slain the {current_enemy.name}")
                 has_played = False
                 upgrade()
@@ -156,12 +166,17 @@ def round1():
             monster_attack()
             if player_health < 1:
                 print("You have been defeated\n")
-                score = shelve.open("highscore")
+                score = shelve.open("last_score")
                 score["Name"] = player_name
                 score["Round Count"] = round_count
                 score["Dragon Count"] = dragon_count
-                for key in score:
-                    print(score[key])
+                print("\nName:")
+                print(score["Name"])
+                print("Rounds Passed:")
+                print(score["Round Count"])
+                print("Dragons Slain:")
+                print(score["Dragon Count"])
+                print("\n")
                 score.close()
                 print("\nYour score has been saved, Thank you for playing!")
                 exit()
@@ -184,22 +199,26 @@ def round1():
                 round1()
         elif action == "stats":
             stats()
-        elif action == "scoreboard":
+        elif action == "previous score":
             scoreboard()
         elif action == "quit":
-            score = shelve.open("highscore")
+            score = shelve.open("last_score")
             score["Name"] = player_name
             score["Round Count"] = round_count
             score["Dragon Count"] = dragon_count
-            for key in score:
-                print(score[key])
+            print("\nName:")
+            print(score["Name"])
+            print("Rounds Passed:")
+            print(score["Round Count"])
+            print("Dragons Slain:")
+            print(score["Dragon Count"])
+            print("\n")
             score.close()
             print("\nYour score has been saved, Thank you for playing!")
             exit()
 
-
 def scoreboard():
-    score = shelve.open("highscore")
+    score = shelve.open("last_score")
     print("\nName:")
     print(score["Name"])
     print("Rounds Passed:")
@@ -273,6 +292,7 @@ def heavy_attack():
             if hit_chance > 45 and weapon1.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon1.weapon_dmg}) + ({weapon1.weapon_dmg / 4} Weakness bonus) + ({weapon1.weapon_dmg / 2} + Heavy bonus)")
                 current_enemy_health_g = current_enemy_health_g - ((weapon1.weapon_dmg / 4) +(weapon1.weapon_dmg / 2)+ weapon1.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
                 return
             elif hit_chance > 45:
                 print(f"It Hits! ({weapon1.weapon_dmg}) + ({weapon1.weapon_dmg / 2} Heavy bonus)")
@@ -288,6 +308,7 @@ def heavy_attack():
             if hit_chance > 45 and weapon2.weapon_dmg_type == current_enemy.weakness1:
                 print(f"It Hits! ({weapon2.weapon_dmg}) + ({weapon2.weapon_dmg / 4} Weakness bonus) + ({weapon2.weapon_dmg / 2} + Heavy bonus)")
                 current_enemy_health_g = current_enemy_health_g - ((weapon2.weapon_dmg / 4) +(weapon2.weapon_dmg / 2)+ weapon2.weapon_dmg)
+                print(f"The {current_enemy.name} has {current_enemy_health_g} HP remaing\n")
                 return
             if hit_chance > 45:
                 print(f"It Hits! ({weapon2.weapon_dmg}) + heavy bonus ({weapon2.weapon_dmg / 2})")
@@ -321,7 +342,8 @@ def monster_attack():
 
 
 def stats():
-    print(f"\nYou current weild a {weapon1.weapon_name} ({weapon1.weapon_dmg} Damage) and a {weapon2.weapon_name} ({weapon2.weapon_dmg} Damage)")
+    print(f"Your name is {player_name} and you have {player_health} remaining")
+    print(f"You current weild a {weapon1.weapon_name} ({weapon1.weapon_dmg} Damage) and a {weapon2.weapon_name} ({weapon2.weapon_dmg} Damage)")
     print(f"You have donned the {helm.armor_helm_name} ({helm.dmg_reduction} Defence) and {armor.armor_body_name} ({armor.dmg_reduction} Defence)") 
     print(f"You have sucessfully defeated {round_count} enimies and {dragon_count} Dragons\n")
 
@@ -445,6 +467,9 @@ def upgrade():
     return
 
 def game_start():
+    global player_name
+    player_name = input("Please enter your name: ")
+    print(f"\nwelcome {player_name}")
     run_preperation()
     round1()
 
