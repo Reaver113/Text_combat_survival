@@ -17,7 +17,7 @@ weapon1 = common_sword
 weapon2 = common_bow
 armor = common_armor
 helm = common_armor_helm
-player_health = 200
+player_health = 400
 plyaer_name = ""
 
 def run_preperation():
@@ -29,38 +29,61 @@ def run_preperation():
     global current_enemy_health_g
     global player_name
 
-    enemy_roll1 = random.randint(1,3)
+    enemy_roll1 = random.randint(1,5)
+
     if enemy_roll1 == 1:
         enemy1 = goblin
     elif enemy_roll1 == 2:
         enemy1 = rock_monster
     elif enemy_roll1 == 3:
         enemy1 = cyclops
+    elif enemy_roll1 == 4:
+        enemy1 = treeant
+    elif enemy_roll1 == 5:
+        enemy1 = orc
 
-    enemy_roll2 = random.randint(1,3)
+    enemy_roll2 = random.randint(1,5)
+
+
     if enemy_roll2 == 1:
         enemy2 = goblin
     elif enemy_roll2 == 2:
         enemy2 = rock_monster
     elif enemy_roll2 == 3:
         enemy2 = cyclops
+    elif enemy_roll2 == 4:
+        enemy2 = treeant
+    elif enemy_roll2 == 5:
+        enemy2 = orc
 
-    enemy_roll3 = random.randint(1,3)
+    enemy_roll3 = random.randint(1,5)
+
+
+
     if enemy_roll3 == 1:
         enemy3 = goblin
     elif enemy_roll3 == 2:
         enemy3 = rock_monster
     elif enemy_roll3 == 3:
         enemy3 = cyclops
+    elif enemy_roll3 == 4:
+        enemy3 = treeant
+    elif enemy_roll3 == 5:
+        enemy3 = orc
 
-    enemy_roll4 = random.randint(1,3)
+    enemy_roll4 = random.randint(1,5)
+
+
     if enemy_roll4 == 1:
         enemy4 = goblin
     elif enemy_roll4 == 2:
         enemy4 = rock_monster
     elif enemy_roll4 == 3:
         enemy4 = cyclops
-
+    elif enemy_roll4 == 4:
+        enemy4 = treeant
+    elif enemy_roll4 == 5:
+        enemy4 = orc
 
     user_ready = "not ready"
 
@@ -69,18 +92,19 @@ def run_preperation():
     
     print("This rounds gauntlet will be!\n")
     print(enemy1.name)
-    print(f"This enemy has {enemy1.health} Health, and is weak to {enemy1.weakness1} and {enemy1.weakness2} damage\n ")
+    print(f"This enemy has {enemy1.health} Health, and is weak to {enemy1.weakness1} damage\n ")
     print("followed by:\n")
     print(enemy2.name)
-    print(f"This enemy has {enemy2.health} Health, and is weak to {enemy2.weakness1} and {enemy2.weakness2} damage\n")
+    print(f"This enemy has {enemy2.health} Health, and is weak to {enemy2.weakness1} damage\n")
     print("followed by:\n")
     print(enemy3.name)
-    print(f"This enemy has {enemy3.health} Health, and is weak to {enemy3.weakness1} and {enemy3.weakness2} damage\n")
+    print(f"This enemy has {enemy3.health} Health, and is weak to {enemy3.weakness1} damage\n")
     print("followed by:\n")
     print(enemy4.name )
-    print(f"This enemy has {enemy4.health} Health, and is weak to {enemy4.weakness1} and {enemy4.weakness2} damage\n")
+    print(f"This enemy has {enemy4.health} Health, and is weak to {enemy4.weakness1} damage\n")
     print("Goodluck.... you're gonna need it....")
-    while user_ready != "ready" or "exit":
+
+    while user_ready != "ready":
         user_ready = input("""Type "ready" to begin the challenge or "exit" to run: """)
         if user_ready == "ready":
             current_enemy_health_g = enemy1.health
@@ -92,7 +116,7 @@ def run_preperation():
             round1()
             return
         if user_ready == "exit":
-            break
+            exit()
 
 
 
@@ -100,11 +124,12 @@ def run_preperation():
 def round1():
     global round_count
     global has_played
+    global player_name
     action = ""
     if current_enemy == dragon_boss:
         print("THE MIGHTY DRAGON ROARS!!!!! This be a tough fight")
     elif has_played == False:
-        print(f"\nYou stand before {current_enemy.name} and prepare yourself.\n")
+        print(f"\nYou stand before the {current_enemy.name} and prepare yourself.\n")
         has_played = True
     elif has_played == True:
         print(f"The {current_enemy.name} matches you gaze once more")
@@ -112,6 +137,11 @@ def round1():
 
     while action != "quick attack"  or "heavy attack":
         action = input(""""Quick Attack"    "Heavy Attack"       "Stats"        "Scoreboard"      """).lower()
+        if action == "quick":
+            action = "quick attack"
+        if action == "heavy":
+            action = "heavy attack"
+
         if action == "quick attack":
             quick_attack()
             if current_enemy_health_g < 1:
@@ -152,6 +182,16 @@ def round1():
             stats()
         elif action == "scoreboard":
             scoreboard()
+        elif action == "quit":
+            score = shelve.open("highscore")
+            score["Name"] = player_name
+            score["Round Count"] = round_count
+            score["Dragon Count"] = dragon_count
+            for key in score:
+                print(score[key])
+            score.close()
+            print("\nYour score has been saved, Thank you for playing!")
+            exit()
 
 
 def scoreboard():
@@ -171,6 +211,11 @@ def quick_attack():
     chosen_weapon = "not chosen"
     while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
+        if chosen_weapon == "sword":
+            chosen_weapon = weapon1.weapon_name
+        if chosen_weapon == "bow":
+            chosen_weapon = weapon2.weapon_name
+
         if chosen_weapon == weapon1.weapon_name :
             print(f"You attack with your {weapon1.weapon_name}\n")
             hit_chance = random.randint(1,100)
@@ -213,6 +258,11 @@ def heavy_attack():
     chosen_weapon = "not chosen"
     while chosen_weapon != weapon1.weapon_name or weapon2.weapon_name:
         chosen_weapon = input(f"\nUse your {weapon1.weapon_name} or {weapon2.weapon_name}: ").lower()
+        if chosen_weapon == "sword":
+            chosen_weapon = weapon1.weapon_name
+        if chosen_weapon == "bow":
+            chosen_weapon = weapon2.weapon_name
+
         if chosen_weapon == weapon1.weapon_name:
             print(f"You attack with your {weapon1.weapon_name}\n")
             hit_chance = random.randint(1,100)
@@ -255,13 +305,13 @@ def monster_attack():
         monster_dmg_pre = random.randint(10, 20)
         monster_dmg = monster_dmg_pre + (monster_dmg_pre / 2) - helm.dmg_reduction - armor.dmg_reduction
         player_health = player_health - monster_dmg
-        print(f"The {enemy_1.name} Hits you back for {monster_dmg} ({monster_dmg_pre} + {monster_dmg_pre / 2}) - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
+        print(f"The {current_enemy.name} Hits you back for {monster_dmg} ({monster_dmg_pre} + {monster_dmg_pre / 2}) - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
         print(f"You have {player_health} remaing\n")
     if current_enemy != dragon_boss:
         monster_dmg_pre = random.randint(10, 20)
         monster_dmg = monster_dmg_pre - helm.dmg_reduction - armor.dmg_reduction
         player_health = player_health - monster_dmg
-        print(f"The {enemy_1.name} Hits you back for {monster_dmg} ({monster_dmg_pre} - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
+        print(f"The {current_enemy.name} Hits you back for {monster_dmg} ({monster_dmg_pre} - {helm.dmg_reduction + armor.dmg_reduction} from armor stats)")
         print(f"You have {player_health} remaing\n")
 
 
@@ -304,11 +354,6 @@ def round_reset():
     elif current_enemy == dragon_boss:
         dragon_count += 1
         run_preperation()
-
-
-def game_start():
-    run_preperation()
-    round1()
 
 def upgrade():
     global weapon1
@@ -394,5 +439,10 @@ def upgrade():
             armor = aicent_armor
             print("""Your "Relic Armor" becomes a "Ancient Armor"\n """)
     return
+
+def game_start():
+    run_preperation()
+    round1()
+
 
 game_start()
