@@ -42,8 +42,10 @@ def run_preperation():
     elif enemy_roll1 == 5:
         enemy1 = orc
 
-    enemy_roll2 = random.randint(1,5)
 
+    enemy_roll2 = random.randint(1,5)
+    while enemy_roll2 == enemy_roll1:
+        enemy_roll2 = random.randint(1,5)
 
     if enemy_roll2 == 1:
         enemy2 = goblin
@@ -57,7 +59,8 @@ def run_preperation():
         enemy2 = orc
 
     enemy_roll3 = random.randint(1,5)
-
+    while enemy_roll3 == enemy_roll1 or enemy_roll3 == enemy_roll2:
+        enemy_roll3 = random.randint(1,5)
 
 
     if enemy_roll3 == 1:
@@ -72,7 +75,8 @@ def run_preperation():
         enemy3 = orc
 
     enemy_roll4 = random.randint(1,5)
-
+    while enemy_roll4 == enemy_roll1 or enemy_roll4 ==  enemy_roll2 or enemy_roll4 ==  enemy_roll3:
+        enemy_roll4 = random.randint(1,5)
 
     if enemy_roll4 == 1:
         enemy4 = goblin
