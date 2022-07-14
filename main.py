@@ -73,7 +73,7 @@ def run_preperation():
     print("Goodluck.... you're gonna need it....")
 
     while user_ready != "ready":
-        user_ready = input("""Type "ready" to begin the challenge or "exit" to run: """)
+        user_ready = input("""Type "ready" to begin the challenge, "help" for how to play, or "exit" to run: """)
         if user_ready == "ready":
             current_enemy_health = enemy_1.health
             current_enemy = enemy_1
@@ -81,6 +81,13 @@ def run_preperation():
             return
         if user_ready == "exit":
             exit()
+        if user_ready == "help":
+            help = open("help.txt")
+            help_contents = help.read()
+            print()
+            print(help_contents)
+            print()
+            help.close()
 
 
 

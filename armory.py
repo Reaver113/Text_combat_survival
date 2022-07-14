@@ -1,7 +1,6 @@
-import random
 class ArmorBody:
-    def __init__(self, ArmorBody_name, dmg_reduction, cost):
-        self.ArmorBody_name = ArmorBody_name
+    def __init__(self, armor_body_name, dmg_reduction, cost):
+        self.armor_body_name = armor_body_name
         self.dmg_reduction = dmg_reduction
         self.cost = cost
         
@@ -14,8 +13,8 @@ relic_armor = ArmorBody("Relic Armor", 12, 150)
 aicent_armor = ArmorBody("Ancient Armor", 14, 170)
 
 class ArmorHelm:
-    def __init__(self, ArmorHelm_name, dmg_reduction, cost):
-        self.ArmorHelm_name = ArmorHelm_name
+    def __init__(self, armor_helm_name, dmg_reduction, cost):
+        self.armor_helm_name = armor_helm_name
         self.dmg_reduction = dmg_reduction
         self.cost = cost
         
@@ -28,10 +27,10 @@ relic_armor_helm = ArmorHelm("Relic Helm", 6, 75)
 aicent_armor_helm = ArmorHelm("Ancient Helm", 7, 85)
 
 class Weapon:
-    def __init__(self, Weapon_name, Weapon_dmg_type, Weapon_dmg, cost):
-        self.Weapon_name = Weapon_name
-        self.Weapon_dmg_type = Weapon_dmg_type
-        self.Weapon_dmg = Weapon_dmg
+    def __init__(self, weapon_name, weapon_dmg_type, weapon_dmg, cost):
+        self.weapon_name = weapon_name
+        self.weapon_dmg_type = weapon_dmg_type
+        self.weapon_dmg = weapon_dmg
         self.cost = cost 
         
 common_sword = Weapon("common sword", "Slash", 8, 50)
