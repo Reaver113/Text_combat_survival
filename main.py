@@ -3,6 +3,7 @@ import shelve
 from armory import *
 from monsters import *
 
+# variables used across multiple functions
 current_enemy_health = 0
 enemy_1 = ""
 enemy_2 = ""
@@ -20,6 +21,7 @@ helm = common_armor_helm
 player_health = 400
 player_name = ""
 
+# rolls, and assigns the 4 random eneimes the player will verse 
 def run_preperation():
     global current_enemy
     global enemy_1
@@ -91,7 +93,7 @@ def run_preperation():
 
 
 
-
+# start of combat and player choice of attack
 def round1():
     global round_count
     global has_played
@@ -184,6 +186,7 @@ def round1():
             print("\nYour score has been saved, Thank you for playing!")
             exit()
 
+# Prints the stats of the previous player
 def scoreboard():
     score = shelve.open("last_score")
     print("\nName:")
@@ -195,7 +198,7 @@ def scoreboard():
     print("\n")
     score.close()
 
-
+# Quick attack function
 def quick_attack():
     global current_enemy_health
     chosen_weapon = "not chosen"
@@ -239,7 +242,7 @@ def quick_attack():
                 print("Your attack misses\n")
                 return
 
-
+# heavy attack function
 def heavy_attack():
     global current_enemy_health
     chosen_weapon = "not chosen"
@@ -287,7 +290,7 @@ def heavy_attack():
 
 
 
-
+# monster attack function, should be used after every player "quick" or "heavy" attack unless monster HP < 1
 def monster_attack():
     global player_health
     if current_enemy == dragon_boss:
@@ -304,13 +307,14 @@ def monster_attack():
         print(f"You have {player_health} remaing\n")
 
 
-
+# Player can view current standings
 def stats():
     print(f"\nYour name is {player_name} and you have {player_health} HP remaining")
     print(f"You current weild a {weapon1.weapon_name} ({weapon1.weapon_dmg} Damage) and a {weapon2.weapon_name} ({weapon2.weapon_dmg} Damage)")
     print(f"You have donned the {helm.armor_helm_name} ({helm.dmg_reduction} Defence) and {armor.armor_body_name} ({armor.dmg_reduction} Defence)") 
     print(f"You have sucessfully defeated {round_count} enimies and {dragon_count} Dragons\n")
 
+# Used after each enimeies HP reaches 0 to progress the gauntlet
 def round_reset():
     global round_count
     global dragon_count
@@ -345,6 +349,9 @@ def round_reset():
         dragon_count += 1
         run_preperation()
 
+
+
+# Roll for a random upgrade, moving player corosponding item up a tier
 def upgrade():
     global weapon1
     global weapon2
@@ -430,6 +437,8 @@ def upgrade():
             print("""Your "Relic Armor" becomes a "Ancient Armor"\n """)
     return
 
+
+# take player name and runs game functions in order
 def game_start():
     global player_name
     player_name = input("Please enter your name: ")
@@ -437,6 +446,8 @@ def game_start():
     run_preperation()
     round1()
 
+
+# start game, error handeling added for players that "Ctrl+C"
 try: 
     game_start()
 except:
