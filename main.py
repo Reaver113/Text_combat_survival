@@ -184,7 +184,6 @@ def round1():
             print("\nYour score has been saved, Thank you for playing!")
             exit()
 
-
 def scoreboard():
     score = shelve.open("last_score")
     print("\nName:")
@@ -438,5 +437,7 @@ def game_start():
     run_preperation()
     round1()
 
-
-game_start()
+try: 
+    game_start()
+except:
+    print("\n\nYou flee the battlegrounds, no one will remember your name!\n")
