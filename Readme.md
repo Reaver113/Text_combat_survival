@@ -13,7 +13,7 @@ Defeat as many enimies as you can before your health reachs Zero!
 
 Attacking the enemy with the weapon thats type corresponds with enemy weakness will deal an aditional 20% damage of the chosen weapons damage.
 
-The "Status" option allows you to view your characters current name and health, weapons and armor, as well as how many eneimes you have defeated.
+The "Stats" option allows you to view your characters current name and health, weapons and armor, as well as how many eneimes you have defeated.
 
 Upon reaching 0 HP, your Name, Enimes slain, and Dragons slain, will be recorded and the game will be exited.  
 You can view these scores when you next play by typing "Previous Run".
