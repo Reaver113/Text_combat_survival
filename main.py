@@ -79,7 +79,7 @@ def run_preperation():
             current_enemy = enemy_1
             round1()
             return
-        if user_ready == "exit":
+        if user_ready == "exit" or user_ready == "quit":
             exit()
         if user_ready == "help":
             help = open("help.txt")
